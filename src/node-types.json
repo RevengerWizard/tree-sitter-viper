@@ -483,6 +483,10 @@
         {
           "type": "base_type",
           "named": true
+        },
+        {
+          "type": "pointer_type",
+          "named": true
         }
       ]
     }
@@ -497,6 +501,33 @@
       "types": [
         {
           "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pointer_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
+          "type": "user_type",
           "named": true
         }
       ]
@@ -766,6 +797,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
           "named": true
         }
       ]

@@ -531,8 +531,17 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "base_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "base_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "pointer_type"
+            }
+          ]
         }
       ]
     },
@@ -854,33 +863,46 @@
       ]
     },
     "pointer_type": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "base_type"
-          },
-          {
-            "type": "STRING",
-            "value": "*"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "?"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "primitive_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "user_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "array_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_type"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "?"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "base_type": {
       "type": "CHOICE",
@@ -1018,6 +1040,10 @@
           "name": "base_type"
         },
         {
+          "type": "SYMBOL",
+          "name": "pointer_type"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -1031,6 +1057,23 @@
             {
               "type": "SYMBOL",
               "name": "base_type"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "STRING",
+              "value": ":"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "pointer_type"
             }
           ]
         }

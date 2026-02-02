@@ -138,7 +138,12 @@ module.exports = grammar({
 
     user_type: ($) => seq(optional("const"), $.identifier),
 
-    pointer_type: ($) => prec(1, seq($.base_type, "*", optional("?"))),
+    pointer_type: ($) =>
+      seq(
+        choice($.primitive_type, $.user_type, $.array_type, $.function_type),
+        "*",
+        optional("?"),
+      ),
 
     base_type: ($) =>
       choice($.primitive_type, $.user_type, $.array_type, $.function_type),
@@ -161,9 +166,19 @@ module.exports = grammar({
       ),
 
     type_or_param: ($) =>
-      choice($.base_type, seq($.identifier, ":", $.base_type)),
+      choice(
+        $.base_type,
+        $.pointer_type,
+        seq($.identifier, ":", $.base_type),
+        seq($.identifier, ":", $.pointer_type),
+      ),
 
-    parameter: ($) => seq(field("name", $.identifier), ":", $.base_type),
+    parameter: ($) =>
+      seq(
+        field("name", $.identifier),
+        ":",
+        choice($.base_type, $.pointer_type),
+      ),
 
     expression: ($) => $.ternary_expr,
 
