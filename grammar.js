@@ -27,14 +27,16 @@ module.exports = grammar({
         choice("*", seq($.identifier, optional(seq("as", $.identifier)))),
       ),
 
-    alias_declaration: ($) => seq("alias", $.identifier, "=", $.base_type, ";"),
+    alias_declaration: ($) =>
+      seq("alias", field("name", $.identifier), "=", $.base_type, ";"),
 
-    type_declaration: ($) => seq("type", $.identifier, "=", $.base_type, ";"),
+    type_declaration: ($) =>
+      seq("type", field("name", $.identifier), "=", $.base_type, ";"),
 
     def_declaration: ($) =>
       seq(
         "def",
-        $.identifier,
+        field("name", $.identifier),
         optional(seq(":", $.base_type)),
         "=",
         $.expression,
@@ -50,16 +52,16 @@ module.exports = grammar({
         ";",
       ),
 
-    let_declaration: ($) => seq("let", $.identifier),
+    let_declaration: ($) => seq("let", field("name", $.identifier)),
 
     struct_declaration: ($) =>
-      seq("struct", $.identifier, "{", repeat($.parameter), "}"),
+      seq("struct", field("name", $.identifier), "{", repeat($.parameter), "}"),
 
     union_declaration: ($) =>
-      seq("union", $.identifier, "{", repeat($.parameter), "}"),
+      seq("union", field("name", $.identifier), "{", repeat($.parameter), "}"),
 
     enum_declaration: ($) =>
-      seq("enum", $.identifier, "{", repeat($.identifier), "}"),
+      seq("enum", field("name", $.identifier), "{", repeat($.identifier), "}"),
 
     fn_declaration: ($) =>
       seq(
