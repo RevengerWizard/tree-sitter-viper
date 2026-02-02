@@ -81,10 +81,13 @@ module.exports = grammar({
         $.break_statement,
         $.continue_statement,
         $.variable_declaration,
+        $.asm_statement,
         $.expression_statement,
         $.block,
         ";",
       ),
+
+    asm_statement: ($) => seq("asm", $.block),
 
     break_statement: ($) => seq("break", ";"),
 

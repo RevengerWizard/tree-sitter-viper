@@ -510,6 +510,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "asm_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "expression_statement"
         },
         {
@@ -519,6 +523,19 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "asm_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "asm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
