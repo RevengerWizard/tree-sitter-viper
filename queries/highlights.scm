@@ -35,7 +35,7 @@
   name: (identifier) @function)
 
 ;; Variable declarations
-(variable_declaration
+(var_declaration
   name: (identifier) @variable)
 
 ;; Let declarations
