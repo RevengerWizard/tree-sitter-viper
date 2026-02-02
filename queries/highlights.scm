@@ -36,6 +36,7 @@
 
 ;; Variable declarations
 (var_declaration
+  kind: "var"
   name: (identifier) @variable)
 
 ;; Let declarations
@@ -72,17 +73,18 @@
 ;; Array types
 (array_type) @type
 
+;; Struct initializers
+(struct_initializer) @constructor
+(struct_element) @property
+
 ;; Operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
 ["+" "-" "*" "/" "%"] @operator
 ["&" "|" "^" "~" "<<" ">>"] @operator
 ["==" "!=" "<" ">" "<=" ">="] @operator
 ["!" "++" "--"] @operator
-["." "?"] @operator
+["." "->" "?"] @operator
 
 ;; Punctuation
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 [";" "," ":"] @punctuation.delimiter
-;; Struct initializers
-(struct_initializer) @constructor
-(struct_element) @property
