@@ -171,10 +171,7 @@ module.exports = grammar({
       ),
 
     logical_or_expr: ($) =>
-      seq(
-        $.logical_and_expr,
-        repeat(seq(choice("or", "||"), $.logical_and_expr)),
-      ),
+      seq($.logical_and_expr, repeat(seq("or", $.logical_and_expr))),
 
     logical_and_expr: ($) =>
       seq($.equality_expr, repeat(seq("and", $.equality_expr))),
@@ -247,6 +244,8 @@ module.exports = grammar({
         seq("bitcast", "(", $.base_type, ",", $.expression, ")"),
         seq("typeof", "(", $.expression, ")"),
         seq("sizeof", "(", $.base_type, ")"),
+        seq("alignof", "(", $.base_type, ")"),
+        seq("offsetof", "(", $.base_type, ")"),
       ),
 
     identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,

@@ -11,7 +11,7 @@
 ["and" "or" "not"] @keyword
 
 ;; Keywords - Type operations
-["cast" "intcast" "floatcast" "ptrcast" "bitcast" "typeof" "sizeof" "alignof" "offsetof" "typeid"] @keyword
+["cast" "intcast" "floatcast" "ptrcast" "bitcast" "typeof" "sizeof" "alignof" "offsetof"] @keyword
 
 ;; Primitive types
 ["void" "bool" "int8" "int16" "int32" "int64" "uint8" "uint16" "uint32" "uint64" "isize" "usize" "float32" "float64"] @type.builtin

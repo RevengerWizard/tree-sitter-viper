@@ -928,6 +928,10 @@
     "named": false
   },
   {
+    "type": "alignof",
+    "named": false
+  },
+  {
     "type": "and",
     "named": false
   },
@@ -1080,6 +1084,10 @@
     "named": true
   },
   {
+    "type": "offsetof",
+    "named": false
+  },
+  {
     "type": "or",
     "named": false
   },
@@ -1157,10 +1165,6 @@
   },
   {
     "type": "{",
-    "named": false
-  },
-  {
-    "type": "||",
     "named": false
   },
   {
