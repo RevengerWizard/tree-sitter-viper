@@ -31,7 +31,7 @@
 (float) @number
 
 ;; Function declarations
-(function_declaration
+(fn_declaration
   name: (identifier) @function)
 
 ;; Variable declarations
@@ -42,12 +42,8 @@
 (let_declaration
   name: (identifier) @variable)
 
-;; Constant declarations
-(constant_declaration
-  name: (identifier) @constant)
-
-;; Definitions
-(definition
+;; Def declarations
+(def_declaration
   name: (identifier) @constant)
 
 ;; Type declarations

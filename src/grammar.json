@@ -26,15 +26,19 @@
         },
         {
           "type": "SYMBOL",
-          "name": "definition"
+          "name": "def_declaration"
         },
         {
           "type": "SYMBOL",
-          "name": "variable_declaration"
+          "name": "var_declaration"
         },
         {
           "type": "SYMBOL",
-          "name": "function_declaration"
+          "name": "let_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fn_declaration"
         },
         {
           "type": "SYMBOL",
@@ -164,7 +168,7 @@
         }
       ]
     },
-    "definition": {
+    "def_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -210,7 +214,7 @@
         }
       ]
     },
-    "variable_declaration": {
+    "var_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -231,8 +235,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "CHOICE",
@@ -379,7 +387,7 @@
         }
       ]
     },
-    "function_declaration": {
+    "fn_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -483,8 +491,12 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
           "type": "STRING",
@@ -545,7 +557,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "variable_declaration"
+          "name": "var_declaration"
         },
         {
           "type": "SYMBOL",

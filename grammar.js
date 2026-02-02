@@ -9,9 +9,10 @@ module.exports = grammar({
         $.import_statement,
         $.alias_declaration,
         $.type_declaration,
-        $.definition,
-        $.variable_declaration,
-        $.function_declaration,
+        $.def_declaration,
+        $.var_declaration,
+        $.let_declaration,
+        $.fn_declaration,
         $.struct_declaration,
         $.union_declaration,
         $.enum_declaration,
@@ -30,7 +31,7 @@ module.exports = grammar({
 
     type_declaration: ($) => seq("type", $.identifier, "=", $.base_type, ";"),
 
-    definition: ($) =>
+    def_declaration: ($) =>
       seq(
         "def",
         $.identifier,
@@ -40,10 +41,10 @@ module.exports = grammar({
         ";",
       ),
 
-    variable_declaration: ($) =>
+    var_declaration: ($) =>
       seq(
         field("kind", choice("var", "let")),
-        $.identifier,
+        field("name", $.identifier),
         optional(seq(":", $.base_type)),
         optional(seq("=", $.expression)),
         ";",
@@ -60,7 +61,7 @@ module.exports = grammar({
     enum_declaration: ($) =>
       seq("enum", $.identifier, "{", repeat($.identifier), "}"),
 
-    function_declaration: ($) =>
+    fn_declaration: ($) =>
       seq(
         optional(choice("pub", "inline", "noreturn")),
         "fn",
@@ -86,7 +87,7 @@ module.exports = grammar({
         $.return_statement,
         $.break_statement,
         $.continue_statement,
-        $.variable_declaration,
+        $.var_declaration,
         $.asm_statement,
         $.expression_statement,
         $.block,
@@ -160,7 +161,7 @@ module.exports = grammar({
     type_or_param: ($) =>
       choice($.base_type, seq($.identifier, ":", $.base_type)),
 
-    parameter: ($) => seq($.identifier, ":", $.base_type),
+    parameter: ($) => seq(field("name", $.identifier), ":", $.base_type),
 
     expression: ($) => $.ternary_expr,
 
