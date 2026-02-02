@@ -21,9 +21,9 @@ module.exports = grammar({
     import_statement: ($) =>
       seq(
         "from",
-        $.string,
+        field("path", $.string),
         "import",
-        choice("*", repeat(seq($.identifier, ","))),
+        choice("*", seq($.identifier, optional(seq("as", $.identifier)))),
       ),
 
     alias_declaration: ($) => seq("alias", $.identifier, "=", $.base_type, ";"),
