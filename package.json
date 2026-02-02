@@ -1,7 +1,10 @@
 {
-    "name": "tree-sitter-viper",
-    "version": "0.1.0",
-    "description": "Tree-sitter grammar for Viper",
-    "main": "grammar.js",
-    "repository": "https://github.com/yourusername/tree-sitter-viper"
+  "name": "tree-sitter-viper",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Viper",
+  "main": "grammar.js",
+  "repository": "https://github.com/revengerwizard/tree-sitter-viper",
+  "dependencies": {
+    "tree-sitter-cli": "^0.26.5"
+  }
 }
