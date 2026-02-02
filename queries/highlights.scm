@@ -47,7 +47,7 @@
 
 ;; Def declarations
 (def_declaration
-  name: (identifier) @variable)
+  name: (identifier) @constant)
 
 (def_declaration (base_type) @type)
 
