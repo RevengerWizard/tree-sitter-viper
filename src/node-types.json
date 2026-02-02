@@ -784,6 +784,10 @@
           "named": true
         },
         {
+          "type": "let_declaration",
+          "named": true
+        },
+        {
           "type": "return_statement",
           "named": true
         },

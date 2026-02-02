@@ -97,6 +97,7 @@ module.exports = grammar({
         $.break_statement,
         $.continue_statement,
         $.var_declaration,
+        $.let_declaration,
         $.assignment_statement,
         $.asm_statement,
         $.expression_statement,
