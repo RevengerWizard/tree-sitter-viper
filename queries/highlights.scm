@@ -30,6 +30,49 @@
 (number) @number
 (float) @number
 
+;; Fn declarations
+(fn_declaration (identifier) @function)
+
+;; Var declarations
+(var_declaration (identifier) @variable)
+
+;; Let declarations
+(let_declaration (identifier) @variable)
+
+;; Def declarations
+(def_declaration
+  name: (identifier) @constant)
+
+;; Type declarations
+(struct_declaration
+  name: (identifier) @type)
+
+(union_declaration
+  name: (identifier) @type)
+
+(enum_declaration
+  name: (identifier) @type)
+
+(alias_declaration
+  name: (identifier) @type)
+
+;; Parameters
+(parameter
+  name: (identifier) @variable.parameter)
+
+;; Function types
+(function_type) @type
+
+;; Pointer types
+(pointer_type) @type
+
+;; Array types
+(array_type) @type
+
+;; Struct initializers
+(struct_initializer) @constructor
+(struct_element) @property
+
 ;; Operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
 ["+" "-" "*" "/" "%"] @operator
