@@ -2,7 +2,7 @@
 ["if" "else" "while" "for" "break" "continue" "return"] @keyword
 
 ;; Keywords - Declarations
-["fn" "var" "let" "const" "def" "alias" "struct" "union" "enum" "type"] @keyword
+["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
 
 ;; Keywords - Modifiers
 ["pub" "inline" "noreturn" "asm" "import" "from" "as"] @keyword

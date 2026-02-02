@@ -8,6 +8,7 @@ module.exports = grammar({
       choice(
         $.import_statement,
         $.alias_declaration,
+        $.type_declaration,
         $.definition,
         $.variable_declaration,
         $.function_declaration,
@@ -20,6 +21,8 @@ module.exports = grammar({
     import_statement: ($) => seq("from", $.string, "import", "*"),
 
     alias_declaration: ($) => seq("alias", $.identifier, "=", $.base_type, ";"),
+
+    type_declaration: ($) => seq("type", $.identifier, "=", $.base_type, ";"),
 
     definition: ($) =>
       seq(
@@ -84,6 +87,7 @@ module.exports = grammar({
       ),
 
     break_statement: ($) => seq("break", ";"),
+
     continue_statement: ($) => seq("continue", ";"),
 
     if_statement: ($) =>
@@ -101,16 +105,6 @@ module.exports = grammar({
     return_statement: ($) => seq("return", optional($.expression), ";"),
 
     expression_statement: ($) => seq($.expression, ";"),
-
-    type_expr: ($) =>
-      choice(
-        $.primitive_type,
-        $.pointer_type,
-        $.array_type,
-        $.function_type,
-        $.user_type,
-        $.identifier,
-      ),
 
     primitive_type: ($) =>
       choice(

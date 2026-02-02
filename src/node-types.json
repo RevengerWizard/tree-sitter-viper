@@ -331,6 +331,10 @@
           "named": true
         },
         {
+          "type": "type_declaration",
+          "named": true
+        },
+        {
           "type": "union_declaration",
           "named": true
         },
@@ -628,6 +632,25 @@
         },
         {
           "type": "logical_or_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "base_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1048,6 +1071,10 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {
