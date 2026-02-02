@@ -83,3 +83,6 @@
 ;; Punctuation
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 [";" "," ":"] @punctuation.delimiter
+;; Struct initializers
+(struct_initializer) @constructor
+(struct_element) @property

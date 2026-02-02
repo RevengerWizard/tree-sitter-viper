@@ -90,6 +90,7 @@ module.exports = grammar({
         $.break_statement,
         $.continue_statement,
         $.var_declaration,
+        $.assignment_statement,
         $.asm_statement,
         $.expression_statement,
         $.block,
@@ -101,6 +102,26 @@ module.exports = grammar({
     break_statement: ($) => seq("break", ";"),
 
     continue_statement: ($) => seq("continue", ";"),
+
+    assignment_statement: ($) =>
+      seq(
+        $.postfix_expr,
+        choice(
+          "=",
+          "+=",
+          "-=",
+          "*=",
+          "/=",
+          "%=",
+          "&=",
+          "|=",
+          "^=",
+          "<<=",
+          ">>=",
+        ),
+        $.expression,
+        ";",
+      ),
 
     if_statement: ($) =>
       seq(
@@ -255,6 +276,7 @@ module.exports = grammar({
         "false",
         "nil",
         seq("(", $.expression, ")"),
+        $.struct_initializer,
         seq("cast", "(", $.base_type, ",", $.expression, ")"),
         seq("intcast", "(", $.base_type, ",", $.expression, ")"),
         seq("floatcast", "(", $.base_type, ",", $.expression, ")"),
@@ -264,6 +286,26 @@ module.exports = grammar({
         seq("sizeof", "(", $.base_type, ")"),
         seq("alignof", "(", $.base_type, ")"),
         seq("offsetof", "(", $.base_type, ")"),
+      ),
+
+    struct_initializer: ($) =>
+      seq(
+        "{",
+        seq(
+          $.struct_element,
+          repeat(seq(",", $.struct_element)),
+          optional(","),
+        ),
+        "}",
+      ),
+
+    struct_element: ($) =>
+      prec(
+        2,
+        choice(
+          seq("[", $.expression, "]", "=", $.expression),
+          seq($.identifier, "=", $.expression),
+        ),
       ),
 
     identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
