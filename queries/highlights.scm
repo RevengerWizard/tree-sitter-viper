@@ -34,7 +34,10 @@
 (fn_declaration (identifier) @function)
 
 ;; Var declarations
-(var_declaration (identifier) @variable)
+(var_declaration
+  name: (identifier) @variable)
+
+(var_declaration (base_type) @type)
 
 ;; Let declarations
 (let_declaration (identifier) @variable)
