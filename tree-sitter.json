@@ -1,0 +1,24 @@
+{
+  "grammars": [
+    {
+      "name": "viper",
+      "path": ".",
+      "scope": "source.viper",
+      "file-types": ["vp"]
+    }
+  ],
+  "metadata": {
+    "version": "0.4.1",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "",
+        "email": "",
+        "url": ""
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/revengerwizard/tree-sitter-viper"
+    }
+  }
+}

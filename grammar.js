@@ -2,36 +2,41 @@ module.exports = grammar({
   name: "viper",
 
   rules: {
-    source_file: ($) =>
-      repeat(
-        choice(
-          $.import_statement,
-          $.function_declaration,
-          $.variable_declaration,
-          $.constant_declaration,
-          $.alias_declaration,
-          $.struct_declaration,
-          $.union_declaration,
-          $.enum_declaration,
-          $.definition,
-          $.inline_assembly,
-          $.comment,
-        ),
+    source_file: ($) => repeat($.item),
+
+    item: ($) =>
+      choice(
+        $.import_statement,
+        $.alias_declaration,
+        $.definition,
+        $.variable_declaration,
+        $.function_declaration,
+        $.comment,
       ),
 
-    // Import statements
-    import_statement: ($) =>
+    import_statement: ($) => seq("from", $.string, "import", "*"),
+
+    alias_declaration: ($) => seq("alias", $.identifier, "=", $.base_type, ";"),
+
+    definition: ($) =>
       seq(
-        "from",
-        $.string,
-        "import",
-        choice("*", seq($.identifier, repeat(seq(",", $.identifier)))),
+        "def",
+        $.identifier,
+        optional(seq(":", $.base_type)),
+        "=",
+        $.expression,
+        ";",
       ),
 
-    // Comments
-    comment: ($) => token(choice(seq("//", /.*/), seq("/*", /[\s\S]*?/, "*/"))),
+    variable_declaration: ($) =>
+      seq(
+        choice("var", "let", "const"),
+        $.identifier,
+        optional(seq(":", $.base_type)),
+        optional(seq("=", $.expression)),
+        ";",
+      ),
 
-    // Function declaration
     function_declaration: ($) =>
       seq(
         optional(choice("pub", "inline", "noreturn")),
@@ -39,111 +44,29 @@ module.exports = grammar({
         $.identifier,
         $.parameters,
         ":",
-        $.type,
+        $.base_type,
         $.block,
       ),
 
-    // Parameters
     parameters: ($) =>
       seq("(", optional(seq($.parameter, repeat(seq(",", $.parameter)))), ")"),
 
-    parameter: ($) => seq($.identifier, ":", $.type),
+    parameter: ($) => seq($.identifier, ":", $.base_type),
 
-    // Variable declarations
-    variable_declaration: ($) =>
-      seq(
-        "var",
-        $.identifier,
-        optional(seq(":", $.type)),
-        optional(seq("=", $.expression)),
-        ";",
-      ),
-
-    constant_declaration: ($) =>
-      seq(
-        "const",
-        $.identifier,
-        optional(seq(":", $.type)),
-        optional(seq("=", $.expression)),
-        ";",
-      ),
-
-    let_declaration: ($) =>
-      seq(
-        "let",
-        $.identifier,
-        optional(seq(":", $.type)),
-        optional(seq("=", $.expression)),
-      ),
-
-    // Alias declaration
-    alias_declaration: ($) => seq("alias", $.identifier, "=", $.type, ";"),
-
-    // Definition (constants)
-    definition: ($) =>
-      seq(
-        "def",
-        $.identifier,
-        optional(seq(":", $.type)),
-        "=",
-        $.expression,
-        ";",
-      ),
-
-    // Struct declaration
-    struct_declaration: ($) =>
-      seq(
-        "struct",
-        $.identifier,
-        "{",
-        repeat(seq($.identifier, ":", $.type, ";")),
-        "}",
-      ),
-
-    // Union declaration
-    union_declaration: ($) =>
-      seq(
-        "union",
-        $.identifier,
-        "{",
-        repeat(seq($.identifier, ":", $.type, ";")),
-        "}",
-      ),
-
-    // Enum declaration
-    enum_declaration: ($) =>
-      seq(
-        "enum",
-        $.identifier,
-        "{",
-        repeat(seq($.identifier, optional(seq("=", $.number)), ",")),
-        "}",
-      ),
-
-    // Inline assembly
-    inline_assembly: ($) => seq("asm", $.string),
-
-    // Block
     block: ($) => seq("{", repeat($.statement), "}"),
 
-    // Statements
     statement: ($) =>
       choice(
-        $.variable_declaration,
-        $.constant_declaration,
-        $.let_declaration,
         $.if_statement,
         $.while_statement,
         $.for_statement,
         $.return_statement,
-        $.break_statement,
-        $.continue_statement,
+        $.variable_declaration,
         $.expression_statement,
         $.block,
-        $.comment,
+        ";",
       ),
 
-    // Control flow
     if_statement: ($) =>
       seq(
         "if",
@@ -158,20 +81,16 @@ module.exports = grammar({
 
     return_statement: ($) => seq("return", optional($.expression), ";"),
 
-    break_statement: ($) => ";",
-
-    continue_statement: ($) => ";",
-
     expression_statement: ($) => seq($.expression, ";"),
 
-    // Types
-    type: ($) =>
+    type_expr: ($) =>
       choice(
         $.primitive_type,
         $.pointer_type,
         $.array_type,
         $.function_type,
-        $.named_type,
+        $.user_type,
+        $.identifier,
       ),
 
     primitive_type: ($) =>
@@ -192,125 +111,92 @@ module.exports = grammar({
         "float64",
       ),
 
-    pointer_type: ($) => seq($.type, "*", optional("?")),
+    user_type: ($) => seq(optional("const"), $.identifier),
 
-    array_type: ($) => seq($.type, "[", optional($.expression), "]"),
+    pointer_type: ($) => prec(1, seq($.base_type, "*", optional("?"))),
+
+    base_type: ($) =>
+      choice($.primitive_type, $.user_type, $.array_type, $.function_type),
+
+    array_type: ($) =>
+      prec(2, seq($.base_type, "[", optional($.expression), "]")),
 
     function_type: ($) =>
-      seq(
-        "fn",
-        "?",
-        "(",
-        optional(seq($.type, repeat(seq(",", $.type)))),
-        ")",
-        ":",
-        $.type,
-      ),
-
-    named_type: ($) => choice($.identifier, seq("const", $.identifier, "*")),
-
-    // Expressions
-    expression: ($) => choice($.assignment_expression, $.ternary_expression),
-
-    assignment_expression: ($) =>
-      seq(
-        $.ternary_expression,
-        optional(
-          seq(
-            choice(
-              "=",
-              "+=",
-              "-=",
-              "*=",
-              "/=",
-              "%=",
-              "&=",
-              "|=",
-              "^=",
-              "<<=",
-              ">>=",
-            ),
-            $.expression,
-          ),
+      prec(
+        1,
+        seq(
+          "fn",
+          optional("?"),
+          "(",
+          optional(seq($.type_or_param, repeat(seq(",", $.type_or_param)))),
+          ")",
+          ":",
+          $.base_type,
         ),
       ),
 
-    ternary_expression: ($) =>
+    type_or_param: ($) =>
+      choice($.base_type, seq($.identifier, ":", $.base_type)),
+
+    parameter: ($) => seq($.identifier, ":", $.base_type),
+
+    expression: ($) => $.ternary_expr,
+
+    ternary_expr: ($) =>
       seq(
-        $.logical_or_expression,
+        $.logical_or_expr,
         optional(seq("?", $.expression, ":", $.expression)),
       ),
 
-    logical_or_expression: ($) =>
+    logical_or_expr: ($) =>
       seq(
-        $.logical_and_expression,
-        repeat(seq(choice("or", "||"), $.logical_and_expression)),
+        $.logical_and_expr,
+        repeat(seq(choice("or", "||"), $.logical_and_expr)),
       ),
 
-    logical_and_expression: ($) =>
+    logical_and_expr: ($) =>
+      seq($.equality_expr, repeat(seq("and", $.equality_expr))),
+
+    equality_expr: ($) =>
       seq(
-        $.bitwise_or_expression,
-        repeat(seq(choice("and", "&&"), $.bitwise_or_expression)),
+        $.relational_expr,
+        repeat(seq(choice("==", "!="), $.relational_expr)),
       ),
 
-    bitwise_or_expression: ($) =>
-      seq($.bitwise_xor_expression, repeat(seq("|", $.bitwise_xor_expression))),
-
-    bitwise_xor_expression: ($) =>
-      seq($.bitwise_and_expression, repeat(seq("^", $.bitwise_and_expression))),
-
-    bitwise_and_expression: ($) =>
-      seq($.equality_expression, repeat(seq("&", $.equality_expression))),
-
-    equality_expression: ($) =>
+    relational_expr: ($) =>
       seq(
-        $.relational_expression,
-        repeat(seq(choice("==", "!=", "eq", "noteq"), $.relational_expression)),
+        $.shift_expr,
+        repeat(seq(choice("<", ">", "<=", ">="), $.shift_expr)),
       ),
 
-    relational_expression: ($) =>
+    shift_expr: ($) =>
+      seq($.additive_expr, repeat(seq(choice("<<", ">>"), $.additive_expr))),
+
+    additive_expr: ($) =>
       seq(
-        $.shift_expression,
-        repeat(
-          seq(choice("<", ">", "<=", ">=", "le", "ge"), $.shift_expression),
-        ),
+        $.multiplicative_expr,
+        repeat(seq(choice("+", "-"), $.multiplicative_expr)),
       ),
 
-    shift_expression: ($) =>
-      seq(
-        $.additive_expression,
-        repeat(
-          seq(choice("<<", ">>", "lshift", "rshift"), $.additive_expression),
-        ),
-      ),
+    multiplicative_expr: ($) =>
+      seq($.unary_expr, repeat(seq(choice("*", "/", "%"), $.unary_expr))),
 
-    additive_expression: ($) =>
-      seq(
-        $.multiplicative_expression,
-        repeat(seq(choice("+", "-"), $.multiplicative_expression)),
-      ),
-
-    multiplicative_expression: ($) =>
-      seq(
-        $.unary_expression,
-        repeat(seq(choice("*", "/", "%"), $.unary_expression)),
-      ),
-
-    unary_expression: ($) =>
+    unary_expr: ($) =>
       choice(
-        $.postfix_expression,
-        seq(choice("+", "-", "!", "not", "~", "&", "*"), $.unary_expression),
-        seq(choice("++", "--"), $.postfix_expression),
+        $.postfix_expr,
+        seq(
+          choice("!", "not", "-", "+", "~", "&", "*", "++", "--"),
+          $.unary_expr,
+        ),
       ),
 
-    postfix_expression: ($) =>
+    postfix_expr: ($) =>
       seq(
-        $.primary_expression,
+        $.primary_expr,
         repeat(
           choice(
             seq("[", $.expression, "]"),
             seq(".", $.identifier),
-            seq("->", $.identifier),
             seq(
               "(",
               optional(seq($.expression, repeat(seq(",", $.expression)))),
@@ -321,7 +207,7 @@ module.exports = grammar({
         ),
       ),
 
-    primary_expression: ($) =>
+    primary_expr: ($) =>
       choice(
         $.identifier,
         $.number,
@@ -332,54 +218,20 @@ module.exports = grammar({
         "false",
         "nil",
         seq("(", $.expression, ")"),
+        seq("cast", "(", $.base_type, ",", $.expression, ")"),
+        seq("intcast", "(", $.base_type, ",", $.expression, ")"),
+        seq("floatcast", "(", $.base_type, ",", $.expression, ")"),
+        seq("ptrcast", "(", $.base_type, ",", $.expression, ")"),
+        seq("bitcast", "(", $.base_type, ",", $.expression, ")"),
         seq("typeof", "(", $.expression, ")"),
-        seq("sizeof", "(", choice($.type, $.expression), ")"),
-        seq("alignof", "(", $.type, ")"),
-        seq("offsetof", "(", $.type, ",", $.identifier, ")"),
-        seq("typeid", "(", $.type, ")"),
-        seq("cast", "(", $.type, ",", $.expression, ")"),
-        seq("intcast", "(", $.type, ",", $.expression, ")"),
-        seq("floatcast", "(", $.type, ",", $.expression, ")"),
-        seq("ptrcast", "(", $.type, ",", $.expression, ")"),
-        seq("bitcast", "(", $.type, ",", $.expression, ")"),
-        $.struct_literal,
-        $.array_literal,
+        seq("sizeof", "(", $.base_type, ")"),
       ),
 
-    struct_literal: ($) =>
-      seq(
-        $.identifier,
-        "{",
-        optional(
-          seq(
-            seq($.identifier, "=", $.expression),
-            repeat(seq(",", $.identifier, "=", $.expression)),
-          ),
-        ),
-        "}",
-      ),
-
-    array_literal: ($) =>
-      seq(
-        "[",
-        optional(seq($.expression, repeat(seq(",", $.expression)))),
-        "]",
-      ),
-
-    // Literals
     identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
-
-    number: ($) =>
-      choice(
-        /0x[0-9a-fA-F_]+[ulUL]*/,
-        /0b[01_]+[ulUL]*/,
-        /[0-9][0-9_]*[ulUL]*/,
-      ),
-
-    float: ($) => /[0-9][0-9_]*\.[0-9_]*([eE][+-]?[0-9_]+)?[flFL]*/,
-
+    number: ($) => /0x[0-9a-fA-F_]+|0b[01_]+|[0-9][0-9_]*/,
+    float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
-
-    string: ($) => /"(\\.|[^"\\])*"/,
+    string: ($) => /"([^"\\]|\\.)*"/,
+    comment: ($) => token(choice(seq("//", /.*/), seq("/*", /[\s\S]*?/, "*/"))),
   },
 });
