@@ -478,6 +478,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "base_type",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -976,20 +990,6 @@
     "type": "var_declaration",
     "named": true,
     "fields": {
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "let",
-            "named": false
-          },
-          {
-            "type": "var",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,

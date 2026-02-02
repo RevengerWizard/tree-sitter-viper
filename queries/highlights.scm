@@ -36,7 +36,6 @@
 
 ;; Variable declarations
 (var_declaration
-  kind: "var"
   name: (identifier) @variable)
 
 ;; Let declarations

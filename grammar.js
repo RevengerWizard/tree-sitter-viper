@@ -45,14 +45,21 @@ module.exports = grammar({
 
     var_declaration: ($) =>
       seq(
-        field("kind", choice("var", "let")),
+        "var",
         field("name", $.identifier),
         optional(seq(":", $.base_type)),
         optional(seq("=", $.expression)),
         ";",
       ),
 
-    let_declaration: ($) => seq("let", field("name", $.identifier)),
+    let_declaration: ($) =>
+      seq(
+        "let",
+        field("name", $.identifier),
+        optional(seq(":", $.base_type)),
+        optional(seq("=", $.expression)),
+        ";",
+      ),
 
     struct_declaration: ($) =>
       seq("struct", field("name", $.identifier), "{", repeat($.parameter), "}"),
