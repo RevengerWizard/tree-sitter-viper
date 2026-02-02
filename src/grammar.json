@@ -1246,7 +1246,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "relational_expr"
+          "name": "bitwise_or_expr"
         },
         {
           "type": "REPEAT",
@@ -1265,6 +1265,81 @@
                     "value": "!="
                   }
                 ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bitwise_or_expr"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bitwise_or_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "bitwise_xor_expr"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bitwise_xor_expr"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bitwise_xor_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "bitwise_and_expr"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "^"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bitwise_and_expr"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bitwise_and_expr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "relational_expr"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "&"
               },
               {
                 "type": "SYMBOL",

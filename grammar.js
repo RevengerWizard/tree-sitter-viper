@@ -217,9 +217,18 @@ module.exports = grammar({
 
     equality_expr: ($) =>
       seq(
-        $.relational_expr,
-        repeat(seq(choice("==", "!="), $.relational_expr)),
+        $.bitwise_or_expr,
+        repeat(seq(choice("==", "!="), $.bitwise_or_expr)),
       ),
+
+    bitwise_or_expr: ($) =>
+      seq($.bitwise_xor_expr, repeat(seq("|", $.bitwise_xor_expr))),
+
+    bitwise_xor_expr: ($) =>
+      seq($.bitwise_and_expr, repeat(seq("^", $.bitwise_and_expr))),
+
+    bitwise_and_expr: ($) =>
+      seq($.relational_expr, repeat(seq("&", $.relational_expr))),
 
     relational_expr: ($) =>
       seq(

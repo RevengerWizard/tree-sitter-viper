@@ -121,6 +121,51 @@
     }
   },
   {
+    "type": "bitwise_and_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "relational_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bitwise_or_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bitwise_xor_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bitwise_xor_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bitwise_and_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -210,7 +255,7 @@
       "required": true,
       "types": [
         {
-          "type": "relational_expr",
+          "type": "bitwise_or_expr",
           "named": true
         }
       ]
@@ -1131,6 +1176,10 @@
     "named": false
   },
   {
+    "type": "^",
+    "named": false
+  },
+  {
     "type": "^=",
     "named": false
   },
@@ -1376,6 +1425,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {
