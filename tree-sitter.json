@@ -4,7 +4,9 @@
       "name": "viper",
       "path": ".",
       "scope": "source.viper",
-      "file-types": ["vp"]
+      "file-types": ["vp"],
+      "injection-regex": "^vp$",
+      "highlights": "queries/highlights.scm"
     }
   ],
   "metadata": {

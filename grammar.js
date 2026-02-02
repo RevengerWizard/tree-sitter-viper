@@ -11,6 +11,9 @@ module.exports = grammar({
         $.definition,
         $.variable_declaration,
         $.function_declaration,
+        $.struct_declaration,
+        $.union_declaration,
+        $.enum_declaration,
         $.comment,
       ),
 
@@ -30,12 +33,23 @@ module.exports = grammar({
 
     variable_declaration: ($) =>
       seq(
-        choice("var", "let", "const"),
+        field("kind", choice("var", "let")),
         $.identifier,
         optional(seq(":", $.base_type)),
         optional(seq("=", $.expression)),
         ";",
       ),
+
+    let_declaration: ($) => seq("let", $.identifier),
+
+    struct_declaration: ($) =>
+      seq("struct", $.identifier, "{", repeat($.parameter), "}"),
+
+    union_declaration: ($) =>
+      seq("union", $.identifier, "{", repeat($.parameter), "}"),
+
+    enum_declaration: ($) =>
+      seq("enum", $.identifier, "{", repeat($.identifier), "}"),
 
     function_declaration: ($) =>
       seq(
@@ -61,11 +75,16 @@ module.exports = grammar({
         $.while_statement,
         $.for_statement,
         $.return_statement,
+        $.break_statement,
+        $.continue_statement,
         $.variable_declaration,
         $.expression_statement,
         $.block,
         ";",
       ),
+
+    break_statement: ($) => seq("break", ";"),
+    continue_statement: ($) => seq("continue", ";"),
 
     if_statement: ($) =>
       seq(
