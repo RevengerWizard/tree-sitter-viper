@@ -18,7 +18,13 @@ module.exports = grammar({
         $.comment,
       ),
 
-    import_statement: ($) => seq("from", $.string, "import", "*"),
+    import_statement: ($) =>
+      seq(
+        "from",
+        $.string,
+        "import",
+        choice("*", repeat(seq($.identifier, ","))),
+      ),
 
     alias_declaration: ($) => seq("alias", $.identifier, "=", $.base_type, ";"),
 
