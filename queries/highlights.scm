@@ -40,11 +40,16 @@
 (var_declaration (base_type) @type)
 
 ;; Let declarations
-(let_declaration (identifier) @variable)
+(let_declaration
+  name: (identifier) @variable)
+
+(let_declaration (base_type) @type)
 
 ;; Def declarations
 (def_declaration
-  name: (identifier) @constant)
+  name: (identifier) @variable)
+
+(def_declaration (base_type) @type)
 
 ;; Type declarations
 (struct_declaration
