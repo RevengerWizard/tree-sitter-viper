@@ -81,6 +81,9 @@
 (struct_initializer) @constructor
 (struct_element) @property
 
+(user_type "const" @keyword)
+(user_type (identifier) @type)
+
 ;; Operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
 ["+" "-" "*" "/" "%"] @operator
