@@ -84,7 +84,7 @@ module.exports = grammar({
         $.parameters,
         ":",
         $.base_type,
-        $.block,
+        choice(";", $.block),
       ),
 
     parameters: ($) =>
