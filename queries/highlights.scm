@@ -75,7 +75,8 @@
 (pointer_type) @type
 
 ;; Array types
-(array_type) @type
+(array_type (base_type) @type)
+(array_type "[" @punctuation.bracket "]" @punctuation.bracket)
 
 ;; Struct initializers
 (struct_initializer) @constructor
