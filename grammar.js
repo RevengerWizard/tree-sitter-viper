@@ -325,7 +325,7 @@ module.exports = grammar({
         ),
       ),
 
-    identifier: ($) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    identifier: ($) => token(seq(/[a-zA-Z_]/, repeat(/[a-zA-Z0-9_]*/))),
     number: ($) => /0x[0-9a-fA-F_]+|0b[01_]+|[0-9][0-9_]*/,
     float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
