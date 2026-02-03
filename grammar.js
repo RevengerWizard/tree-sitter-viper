@@ -278,17 +278,17 @@ module.exports = grammar({
           choice(
             seq("[", $.expression, "]"),
             seq(".", $.identifier),
-            field(
-              "call",
-              seq(
-                "(",
-                optional(seq($.expression, repeat(seq(",", $.expression)))),
-                ")",
-              ),
-            ),
+            $.arguments,
             choice("++", "--"),
           ),
         ),
+      ),
+
+    arguments: ($) =>
+      seq(
+        "(",
+        optional(seq($.expression, repeat(seq(",", $.expression)))),
+        ")",
       ),
 
     primary_expr: ($) =>
@@ -339,6 +339,7 @@ module.exports = grammar({
     float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
     string: ($) => /"([^"\\]|\\.)*"/,
+
     // Inside rules
     comment: ($) =>
       token(

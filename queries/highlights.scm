@@ -87,12 +87,8 @@
 
 ;; Function Calls
 (postfix_expr
-  (primary_expr (identifier) @function.call))
-
-;; If using the field-based grammar above:
-(postfix_expr
   (primary_expr (identifier) @function.call)
-  call: (_))
+  (arguments))
 
 ;; Operators
 ["=" "+=" "-=" "*=" "/=" "%=" "&=" "|=" "^=" "<<=" ">>="] @operator
