@@ -278,10 +278,13 @@ module.exports = grammar({
           choice(
             seq("[", $.expression, "]"),
             seq(".", $.identifier),
-            seq(
-              "(",
-              optional(seq($.expression, repeat(seq(",", $.expression)))),
-              ")",
+            field(
+              "call",
+              seq(
+                "(",
+                optional(seq($.expression, repeat(seq(",", $.expression)))),
+                ")",
+              ),
             ),
             choice("++", "--"),
           ),
