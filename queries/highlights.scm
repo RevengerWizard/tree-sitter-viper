@@ -20,7 +20,7 @@
 ["true" "false" "nil"] @constant.builtin
 
 ;; Comments
-(comment) @comment @spell
+(comment) @comment
 
 ;; String and character literals
 (string) @string

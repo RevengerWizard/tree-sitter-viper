@@ -336,5 +336,13 @@ module.exports = grammar({
     float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
     string: ($) => /"([^"\\]|\\.)*"/,
+    // Inside rules
+    comment: ($) =>
+      token(
+        choice(
+          seq("//", /.*/),
+          seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // Improved regex for non-nested block comments
+        ),
+      ),
   },
 });
