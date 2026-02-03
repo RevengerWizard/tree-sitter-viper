@@ -1305,6 +1305,14 @@
     "named": false
   },
   {
+    "type": "export",
+    "named": false
+  },
+  {
+    "type": "extern",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },

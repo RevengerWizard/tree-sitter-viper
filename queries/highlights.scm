@@ -5,7 +5,7 @@
 ["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
 
 ;; Keywords - Modifiers
-["pub" "inline" "noreturn" "asm" "import" "from"] @keyword
+["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from"] @keyword
 
 ;; Keywords - Operators
 ["and" "or" "not"] @keyword

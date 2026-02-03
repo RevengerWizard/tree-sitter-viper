@@ -476,6 +476,14 @@
                 {
                   "type": "STRING",
                   "value": "noreturn"
+                },
+                {
+                  "type": "STRING",
+                  "value": "extern"
+                },
+                {
+                  "type": "STRING",
+                  "value": "export"
                 }
               ]
             },

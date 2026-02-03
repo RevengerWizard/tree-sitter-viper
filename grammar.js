@@ -78,7 +78,7 @@ module.exports = grammar({
 
     fn_declaration: ($) =>
       seq(
-        optional(choice("pub", "inline", "noreturn")),
+        optional(choice("pub", "inline", "noreturn", "extern", "export")),
         "fn",
         field("name", $.identifier),
         $.parameters,
