@@ -1,6 +1,13 @@
 module.exports = grammar({
   name: "viper",
 
+  extras: ($) => [
+    $.comment,
+    /\s/, // Ensure whitespace is handled here too
+  ],
+
+  externals: ($) => [$.comment],
+
   rules: {
     source_file: ($) => repeat($.item),
 
@@ -16,7 +23,6 @@ module.exports = grammar({
         $.struct_declaration,
         $.union_declaration,
         $.enum_declaration,
-        $.comment,
       ),
 
     import_statement: ($) =>
@@ -330,6 +336,5 @@ module.exports = grammar({
     float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
     string: ($) => /"([^"\\]|\\.)*"/,
-    comment: ($) => token(choice(seq("//", /.*/), seq("/*", /[\s\S]*?/, "*/"))),
   },
 });
