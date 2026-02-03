@@ -36,20 +36,20 @@
 ;; Var declarations
 (var_declaration
   name: (identifier) @variable)
-
-(var_declaration (base_type) @type)
+(var_declaration ":" @punctuation.delimiter)
+(var_declaration init_type: (_) @type)
 
 ;; Let declarations
 (let_declaration
   name: (identifier) @variable)
-
-(let_declaration (base_type) @type)
+(let_declaration ":" @punctuation.delimiter)
+(let_declaration init_type: (_) @type)
 
 ;; Def declarations
 (def_declaration
   name: (identifier) @constant)
-
-(def_declaration (base_type) @type)
+(def_declaration ":" @punctuation.delimiter)
+(def_declaration init_type: (_) @type)
 
 ;; Type declarations
 (struct_declaration

@@ -12420,7 +12420,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [462] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_bitwise_xor_expr_repeat1, 2, 0, 0), SHIFT_REPEAT(74),
   [465] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_item, 1, 0, 0),
   [467] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_fn_declaration, 6, 0, 2),
-  [469] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_def_declaration, 7, 0, 2),
+  [469] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_def_declaration, 7, 0, 4),
   [471] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_struct_declaration, 5, 0, 2),
   [473] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_union_declaration, 5, 0, 2),
   [475] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_enum_declaration, 5, 0, 2),
