@@ -95,22 +95,6 @@ module.exports = grammar({
     enum_variant: ($) =>
       seq(field("name", $.identifier), optional(seq("=", $.expression))),
 
-    switch_statement: ($) =>
-      seq(
-        "switch",
-        "(",
-        field("condition", $.expression),
-        ")",
-        "{",
-        repeat(choice($.case_arm, $.default_arm)),
-        "}",
-      ),
-
-    case_arm: ($) =>
-      seq("case", field("value", $.expression), ":", $.statement),
-
-    default_arm: ($) => seq("default", ":", $.statement),
-
     fn_declaration: ($) =>
       seq(
         optional(choice("pub", "inline", "noreturn", "extern", "export")),
@@ -146,6 +130,17 @@ module.exports = grammar({
         $.block,
         ";",
       ),
+
+    switch_statement: ($) =>
+      seq(
+        "switch",
+        field("condition", $.expression),
+        repeat1(choice($.case_arm, $.default_arm)),
+      ),
+
+    case_arm: ($) => seq("case", field("value", $.expression), $.block),
+
+    default_arm: ($) => seq("default", $.block),
 
     asm_statement: ($) => seq("asm", $.block),
 
@@ -260,43 +255,67 @@ module.exports = grammar({
       ),
 
     logical_or_expr: ($) =>
-      seq($.logical_and_expr, repeat(seq("or", $.logical_and_expr))),
+      prec.left(
+        1,
+        seq($.logical_and_expr, repeat(seq("or", $.logical_and_expr))),
+      ), // PREC_OR
 
     logical_and_expr: ($) =>
-      seq($.equality_expr, repeat(seq("and", $.equality_expr))),
+      prec.left(2, seq($.equality_expr, repeat(seq("and", $.equality_expr)))), // PREC_AND
 
     equality_expr: ($) =>
-      seq(
-        $.bitwise_or_expr,
-        repeat(seq(choice("==", "!="), $.bitwise_or_expr)),
-      ),
-
-    bitwise_or_expr: ($) =>
-      seq($.bitwise_xor_expr, repeat(seq("|", $.bitwise_xor_expr))),
-
-    bitwise_xor_expr: ($) =>
-      seq($.bitwise_and_expr, repeat(seq("^", $.bitwise_and_expr))),
-
-    bitwise_and_expr: ($) =>
-      seq($.relational_expr, repeat(seq("&", $.relational_expr))),
+      prec.left(
+        3,
+        seq(
+          $.relational_expr,
+          repeat(seq(choice("==", "!="), $.relational_expr)),
+        ),
+      ), // PREC_EQUALITY
 
     relational_expr: ($) =>
-      seq(
-        $.shift_expr,
-        repeat(seq(choice("<", ">", "<=", ">="), $.shift_expr)),
-      ),
+      prec.left(
+        4,
+        seq(
+          $.bitwise_or_expr,
+          repeat(seq(choice("<", ">", "<=", ">="), $.bitwise_or_expr)),
+        ),
+      ), // PREC_COMPARISON
+
+    bitwise_or_expr: ($) =>
+      prec.left(
+        5,
+        seq($.bitwise_xor_expr, repeat(seq("|", $.bitwise_xor_expr))),
+      ), // PREC_BOR
+
+    bitwise_xor_expr: ($) =>
+      prec.left(
+        6,
+        seq($.bitwise_and_expr, repeat(seq("^", $.bitwise_and_expr))),
+      ), // PREC_BXOR
+
+    bitwise_and_expr: ($) =>
+      prec.left(7, seq($.shift_expr, repeat(seq("&", $.shift_expr)))), // PREC_BAND
 
     shift_expr: ($) =>
-      seq($.additive_expr, repeat(seq(choice("<<", ">>"), $.additive_expr))),
+      prec.left(
+        8,
+        seq($.additive_expr, repeat(seq(choice("<<", ">>"), $.additive_expr))),
+      ), // PREC_SHIFT
 
     additive_expr: ($) =>
-      seq(
-        $.multiplicative_expr,
-        repeat(seq(choice("+", "-"), $.multiplicative_expr)),
-      ),
+      prec.left(
+        9,
+        seq(
+          $.multiplicative_expr,
+          repeat(seq(choice("+", "-"), $.multiplicative_expr)),
+        ),
+      ), // PREC_TERM
 
     multiplicative_expr: ($) =>
-      seq($.unary_expr, repeat(seq(choice("*", "/", "%"), $.unary_expr))),
+      prec.left(
+        10,
+        seq($.unary_expr, repeat(seq(choice("*", "/", "%"), $.unary_expr))),
+      ), // PREC_FACTOR
 
     unary_expr: ($) =>
       choice(
@@ -308,14 +327,17 @@ module.exports = grammar({
       ),
 
     postfix_expr: ($) =>
-      seq(
-        $.primary_expr,
-        repeat(
-          choice(
-            seq("[", $.expression, "]"),
-            seq(".", $.identifier),
-            $.arguments,
-            choice("++", "--"),
+      prec.left(
+        11,
+        seq(
+          $.primary_expr,
+          repeat(
+            choice(
+              seq("[", $.expression, "]"),
+              seq(".", $.identifier),
+              $.arguments,
+              choice("++", "--"),
+            ),
           ),
         ),
       ),

@@ -144,7 +144,7 @@
       "required": true,
       "types": [
         {
-          "type": "relational_expr",
+          "type": "shift_expr",
           "named": true
         }
       ]
@@ -220,7 +220,7 @@
       "required": true,
       "types": [
         {
-          "type": "statement",
+          "type": "block",
           "named": true
         }
       ]
@@ -280,7 +280,7 @@
       "required": true,
       "types": [
         {
-          "type": "statement",
+          "type": "block",
           "named": true
         }
       ]
@@ -357,7 +357,7 @@
       "required": true,
       "types": [
         {
-          "type": "bitwise_or_expr",
+          "type": "relational_expr",
           "named": true
         }
       ]
@@ -810,7 +810,7 @@
       "required": true,
       "types": [
         {
-          "type": "shift_expr",
+          "type": "bitwise_or_expr",
           "named": true
         }
       ]
@@ -1002,7 +1002,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "case_arm",

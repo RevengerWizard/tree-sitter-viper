@@ -36,8 +36,17 @@
 (enum_variant name: (identifier) @constant)
 
 ;; Switch
-(case_arm "case" @keyword)
-(default_arm "default" @keyword)
+(switch_statement
+  "switch" @keyword
+  condition: (_)
+  (case_arm
+    "case" @keyword
+    value: (_)
+    (block) @none))
+
+(default_arm
+  "default" @keyword
+  (block) @none)
 
 ;; Packed modifier
 (struct_declaration "packed" @keyword)
