@@ -68,13 +68,48 @@ module.exports = grammar({
       ),
 
     struct_declaration: ($) =>
-      seq("struct", field("name", $.identifier), "{", repeat($.parameter), "}"),
+      seq(
+        optional("packed"),
+        "struct",
+        field("name", $.identifier),
+        "{",
+        repeat($.parameter),
+        "}",
+      ),
 
     union_declaration: ($) =>
       seq("union", field("name", $.identifier), "{", repeat($.parameter), "}"),
 
     enum_declaration: ($) =>
-      seq("enum", field("name", $.identifier), "{", repeat($.identifier), "}"),
+      seq(
+        "enum",
+        field("name", $.identifier),
+        optional(seq(":", field("base_type", $.base_type))),
+        "{",
+        optional(
+          seq($.enum_variant, repeat(seq(",", $.enum_variant)), optional(",")),
+        ),
+        "}",
+      ),
+
+    enum_variant: ($) =>
+      seq(field("name", $.identifier), optional(seq("=", $.expression))),
+
+    switch_statement: ($) =>
+      seq(
+        "switch",
+        "(",
+        field("condition", $.expression),
+        ")",
+        "{",
+        repeat(choice($.case_arm, $.default_arm)),
+        "}",
+      ),
+
+    case_arm: ($) =>
+      seq("case", field("value", $.expression), ":", $.statement),
+
+    default_arm: ($) => seq("default", ":", $.statement),
 
     fn_declaration: ($) =>
       seq(
@@ -97,6 +132,7 @@ module.exports = grammar({
     statement: ($) =>
       choice(
         $.if_statement,
+        $.switch_statement,
         $.while_statement,
         $.for_statement,
         $.return_statement,

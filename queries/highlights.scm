@@ -1,5 +1,5 @@
 ;; Keywords - Control flow
-["if" "else" "while" "for" "break" "continue" "return"] @keyword
+["if" "else" "while" "for" "break" "continue" "return" "switch" "case" "default"] @keyword
 
 ;; Keywords - Declarations
 ["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
@@ -29,6 +29,18 @@
 ;; Numbers
 (number) @number
 (float) @number
+
+;; Enums
+(enum_declaration name: (identifier) @type)
+(enum_declaration base_type: (_) @type)
+(enum_variant name: (identifier) @constant)
+
+;; Switch
+(case_arm "case" @keyword)
+(default_arm "default" @keyword)
+
+;; Packed modifier
+(struct_declaration "packed" @keyword)
 
 ;; Fn declarations
 (fn_declaration (identifier) @function)

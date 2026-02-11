@@ -201,6 +201,32 @@
     "fields": {}
   },
   {
+    "type": "case_arm",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "continue_statement",
     "named": true,
     "fields": {}
@@ -246,9 +272,34 @@
     }
   },
   {
+    "type": "default_arm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "enum_declaration",
     "named": true,
     "fields": {
+      "base_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "base_type",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -265,7 +316,33 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "enum_variant",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_variant",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -834,6 +911,10 @@
           "named": true
         },
         {
+          "type": "switch_statement",
+          "named": true
+        },
+        {
           "type": "var_declaration",
           "named": true
         },
@@ -899,6 +980,36 @@
       "types": [
         {
           "type": "struct_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "switch_statement",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_arm",
+          "named": true
+        },
+        {
+          "type": "default_arm",
           "named": true
         }
       ]
@@ -1272,6 +1383,10 @@
     "named": false
   },
   {
+    "type": "case",
+    "named": false
+  },
+  {
     "type": "cast",
     "named": false
   },
@@ -1294,6 +1409,10 @@
   },
   {
     "type": "def",
+    "named": false
+  },
+  {
+    "type": "default",
     "named": false
   },
   {
@@ -1417,6 +1536,10 @@
     "named": false
   },
   {
+    "type": "packed",
+    "named": false
+  },
+  {
     "type": "ptrcast",
     "named": false
   },
@@ -1438,6 +1561,10 @@
   },
   {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "switch",
     "named": false
   },
   {
