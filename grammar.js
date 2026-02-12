@@ -131,6 +131,14 @@ module.exports = grammar({
         ";",
       ),
 
+    short_block: ($) =>
+      choice(
+        $.block,
+        $.return_statement,
+        $.continue_statement,
+        $.break_statement,
+      ),
+
     switch_statement: ($) =>
       seq(
         "switch",
@@ -138,11 +146,11 @@ module.exports = grammar({
         repeat1(choice($.case_arm, $.default_arm)),
       ),
 
-    case_arm: ($) => seq("case", field("value", $.expression), $.block),
+    case_arm: ($) => seq("case", field("value", $.expression), $.short_block),
 
-    default_arm: ($) => seq("default", $.block),
+    default_arm: ($) => seq("default", $.short_block),
 
-    asm_statement: ($) => seq("asm", $.block),
+    asm_statement: ($) => seq("asm", $.short_block),
 
     break_statement: ($) => seq("break", ";"),
 
@@ -172,8 +180,8 @@ module.exports = grammar({
       seq(
         "if",
         $.expression,
-        $.block,
-        optional(seq("else", choice($.block, $.if_statement))),
+        $.short_block,
+        optional(seq("else", choice($.short_block, $.if_statement))),
       ),
 
     while_statement: ($) => seq("while", $.expression, $.block),
