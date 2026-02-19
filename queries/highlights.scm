@@ -87,6 +87,9 @@
 (alias_declaration
   name: (identifier) @type)
 
+(type_declaration
+  name: (identifier) @type)
+
 ;; Imports
 (import_alias name: (identifier) @variable)
 (import_alias alias: (identifier) @variable)
