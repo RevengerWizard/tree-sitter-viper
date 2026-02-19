@@ -13,7 +13,7 @@ module.exports = grammar({
 
     item: ($) =>
       choice(
-        $.import_statement,
+        $.import_declaration,
         $.alias_declaration,
         $.type_declaration,
         $.def_declaration,
@@ -25,13 +25,25 @@ module.exports = grammar({
         $.enum_declaration,
       ),
 
-    import_statement: ($) =>
-      seq(
-        "from",
-        field("path", $.string),
-        "import",
-        choice("*", seq($.identifier, optional(seq("as", $.identifier)))),
+    import_declaration: ($) =>
+      choice(
+        seq("import", field("path", $.path_identifier)),
+        seq(
+          "from",
+          field("path", $.path_identifier),
+          "import",
+          choice("*", seq($.import_alias, repeat(seq(",", $.import_alias)))),
+        ),
       ),
+
+    import_alias: ($) =>
+      seq(
+        field("name", $.identifier),
+        optional(seq("as", field("alias", $.identifier))),
+      ),
+
+    path_identifier: ($) =>
+      prec.left(seq($.identifier, repeat(seq("::", $.identifier)))),
 
     alias_declaration: ($) =>
       seq("alias", field("name", $.identifier), "=", $.base_type, ";"),

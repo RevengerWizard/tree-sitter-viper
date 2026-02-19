@@ -5,7 +5,7 @@
 ["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
 
 ;; Keywords - Modifiers
-["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from"] @keyword
+["pub" "inline" "noreturn" "extern" "export" "asm" "import" "from" "as"] @keyword
 
 ;; Keywords - Operators
 ["and" "or" "not"] @keyword
@@ -86,6 +86,14 @@
 
 (alias_declaration
   name: (identifier) @type)
+
+;; Imports
+(import_alias name: (identifier) @variable)
+(import_alias alias: (identifier) @variable)
+
+;; Path Access
+(path_identifier (identifier) @variable)
+"::" @punctuation.delimiter
 
 ;; Parameters
 (parameter
