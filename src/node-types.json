@@ -41,6 +41,21 @@
     }
   },
   {
+    "type": "anonymous_aggregate",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "struct_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "arguments",
     "named": true,
     "fields": {},
@@ -1013,7 +1028,7 @@
       "required": false,
       "types": [
         {
-          "type": "parameter",
+          "type": "struct_field",
           "named": true
         }
       ]
@@ -1033,6 +1048,40 @@
         },
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_field",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "anonymous_aggregate",
+          "named": true
+        },
+        {
+          "type": "base_type",
+          "named": true
+        },
+        {
+          "type": "pointer_type",
           "named": true
         }
       ]
@@ -1190,7 +1239,7 @@
       "required": false,
       "types": [
         {
-          "type": "parameter",
+          "type": "struct_field",
           "named": true
         }
       ]

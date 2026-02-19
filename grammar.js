@@ -84,11 +84,40 @@ module.exports = grammar({
         optional("packed"),
         "struct",
         field("name", $.identifier),
-        choice(";", seq("{", repeat($.parameter), "}")),
+        choice(";", seq("{", repeat($.struct_field), "}")),
       ),
 
     union_declaration: ($) =>
-      seq("union", field("name", $.identifier), "{", repeat($.parameter), "}"),
+      seq(
+        "union",
+        field("name", $.identifier),
+        "{",
+        repeat($.struct_field),
+        "}",
+      ),
+
+    struct_field: ($) =>
+      seq(
+        choice(
+          seq(
+            field("name", $.identifier),
+            repeat(seq(",", field("name", $.identifier))),
+            ":",
+            choice($.base_type, $.pointer_type),
+          ),
+          $.anonymous_aggregate,
+        ),
+        ";",
+      ),
+
+    anonymous_aggregate: ($) =>
+      seq(
+        optional("packed"),
+        choice("struct", "union"),
+        "{",
+        repeat($.struct_field),
+        "}",
+      ),
 
     enum_declaration: ($) =>
       seq(
