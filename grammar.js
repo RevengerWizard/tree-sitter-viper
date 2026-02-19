@@ -84,9 +84,7 @@ module.exports = grammar({
         optional("packed"),
         "struct",
         field("name", $.identifier),
-        "{",
-        repeat($.parameter),
-        "}",
+        choice(";", seq("{", repeat($.parameter), "}")),
       ),
 
     union_declaration: ($) =>
