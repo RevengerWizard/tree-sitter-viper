@@ -27,10 +27,10 @@ module.exports = grammar({
 
     import_declaration: ($) =>
       choice(
-        seq("import", field("path", $.path_identifier)),
+        seq("import", field("path", $.scoped_identifier)),
         seq(
           "from",
-          field("path", $.path_identifier),
+          field("path", $.scoped_identifier),
           "import",
           choice("*", seq($.import_alias, repeat(seq(",", $.import_alias)))),
         ),
@@ -41,9 +41,6 @@ module.exports = grammar({
         field("name", $.identifier),
         optional(seq("as", field("alias", $.identifier))),
       ),
-
-    path_identifier: ($) =>
-      prec.left(seq($.identifier, repeat(seq("::", $.identifier)))),
 
     alias_declaration: ($) =>
       seq("alias", field("name", $.identifier), "=", $.base_type, ";"),
@@ -419,6 +416,15 @@ module.exports = grammar({
         seq("offsetof", "(", $.base_type, ")"),
       ),
 
+    scoped_identifier: ($) =>
+      prec.left(
+        seq(
+          choice($.identifier, $.primitive_type),
+          repeat(seq("::", $.identifier)),
+          optional(seq("::", $.struct_initializer)),
+        ),
+      ),
+
     struct_initializer: ($) =>
       seq(
         "{",
@@ -448,10 +454,7 @@ module.exports = grammar({
     // Inside rules
     comment: ($) =>
       token(
-        choice(
-          seq("//", /.*/),
-          seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // Improved regex for non-nested block comments
-        ),
+        choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
       ),
   },
 });
