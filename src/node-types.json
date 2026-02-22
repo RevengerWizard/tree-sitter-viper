@@ -542,7 +542,7 @@
         "required": true,
         "types": [
           {
-            "type": "scoped_identifier",
+            "type": "path_identifier",
             "named": true
           }
         ]
@@ -741,6 +741,21 @@
     }
   },
   {
+    "type": "path_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pointer_type",
     "named": true,
     "fields": {},
@@ -827,6 +842,10 @@
           "named": true
         },
         {
+          "type": "scoped_identifier",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -875,19 +894,36 @@
   {
     "type": "scoped_identifier",
     "named": true,
-    "fields": {},
+    "fields": {
+      "member": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
-          "named": true
-        },
         {
           "type": "struct_initializer",
           "named": true

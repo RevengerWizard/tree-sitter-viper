@@ -27,10 +27,10 @@ module.exports = grammar({
 
     import_declaration: ($) =>
       choice(
-        seq("import", field("path", $.scoped_identifier)),
+        seq("import", field("path", $.path_identifier)),
         seq(
           "from",
-          field("path", $.scoped_identifier),
+          field("path", $.path_identifier),
           "import",
           choice("*", seq($.import_alias, repeat(seq(",", $.import_alias)))),
         ),
@@ -41,6 +41,9 @@ module.exports = grammar({
         field("name", $.identifier),
         optional(seq("as", field("alias", $.identifier))),
       ),
+
+    path_identifier: ($) =>
+      prec.left(seq($.identifier, repeat(seq("::", $.identifier)))),
 
     alias_declaration: ($) =>
       seq("alias", field("name", $.identifier), "=", $.base_type, ";"),
@@ -395,6 +398,7 @@ module.exports = grammar({
 
     primary_expr: ($) =>
       choice(
+        $.scoped_identifier,
         $.identifier,
         $.number,
         $.float,
@@ -417,10 +421,12 @@ module.exports = grammar({
       ),
 
     scoped_identifier: ($) =>
-      prec.left(
+      prec(
+        12,
         seq(
-          choice($.identifier, $.primitive_type),
-          repeat(seq("::", $.identifier)),
+          // High precedence to bind :: tighter than operators
+          field("path", choice($.identifier, $.primitive_type)),
+          repeat1(seq("::", field("member", $.identifier))),
           optional(seq("::", $.struct_initializer)),
         ),
       ),
@@ -454,7 +460,10 @@ module.exports = grammar({
     // Inside rules
     comment: ($) =>
       token(
-        choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+        choice(
+          seq("//", /.*/),
+          seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // Improved regex for non-nested block comments
+        ),
       ),
   },
 });

@@ -95,8 +95,9 @@
 (import_alias alias: (identifier) @variable)
 
 ;; Scoped access
-(scoped_identifier (identifier) @type)
-(scoped_identifier "::" (identifier) @variable.member)
+(scoped_identifier path: (_) @type)
+(scoped_identifier member: (identifier) @variable.member)
+(scoped_identifier "::" @punctuation.delimiter)
 
 ;; Parameters
 (parameter

@@ -69,7 +69,7 @@
               "name": "path",
               "content": {
                 "type": "SYMBOL",
-                "name": "scoped_identifier"
+                "name": "path_identifier"
               }
             }
           ]
@@ -86,7 +86,7 @@
               "name": "path",
               "content": {
                 "type": "SYMBOL",
-                "name": "scoped_identifier"
+                "name": "path_identifier"
               }
             },
             {
@@ -168,6 +168,35 @@
           ]
         }
       ]
+    },
+    "path_identifier": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "::"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              ]
+            }
+          }
+        ]
+      }
     },
     "alias_declaration": {
       "type": "SEQ",
@@ -2165,6 +2194,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "scoped_identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -2448,26 +2481,30 @@
       ]
     },
     "scoped_identifier": {
-      "type": "PREC_LEFT",
-      "value": 0,
+      "type": "PREC",
+      "value": 12,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "identifier"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "primitive_type"
-              }
-            ]
+            "type": "FIELD",
+            "name": "path",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "primitive_type"
+                }
+              ]
+            }
           },
           {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "SEQ",
               "members": [
@@ -2476,8 +2513,12 @@
                   "value": "::"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "identifier"
+                  "type": "FIELD",
+                  "name": "member",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
                 }
               ]
             }
