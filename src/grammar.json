@@ -833,8 +833,17 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "base_type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "base_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "pointer_type"
+            }
+          ]
         },
         {
           "type": "CHOICE",

@@ -141,7 +141,7 @@ module.exports = grammar({
         field("name", $.identifier),
         $.parameters,
         ":",
-        $.base_type,
+        choice($.base_type, $.pointer_type),
         choice(";", $.block),
       ),
 
