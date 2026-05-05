@@ -249,7 +249,10 @@ module.exports = grammar({
         "float64",
       ),
 
-    user_type: ($) => seq(optional("const"), $.identifier),
+    user_type: ($) => seq(optional("const"), choice($.identifier, $.qualified_type)),
+
+    qualified_type: ($) =>
+      prec.left(seq($.identifier, repeat1(seq("::", $.identifier)))),
 
     pointer_type: ($) =>
       seq(

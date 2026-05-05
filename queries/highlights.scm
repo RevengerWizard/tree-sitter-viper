@@ -95,7 +95,8 @@
 (import_alias alias: (identifier) @variable)
 
 ;; Scoped access
-(scoped_identifier path: (_) @type)
+(scoped_identifier path: (identifier) @type)
+(scoped_identifier path: (primitive_type) @type.builtin)
 (scoped_identifier member: (identifier) @variable.member)
 (scoped_identifier "::" @punctuation.delimiter)
 
@@ -119,10 +120,19 @@
 
 (user_type "const" @keyword)
 (user_type (identifier) @type)
+(qualified_type (identifier) @type)
+(qualified_type "::" @punctuation.delimiter)
 
 ;; Function Calls
 (postfix_expr
   (primary_expr (identifier) @function.call)
+  (arguments))
+
+(postfix_expr
+  (primary_expr
+    (scoped_identifier
+      member: (identifier) @function.call
+      .))
   (arguments))
 
 ;; Operators

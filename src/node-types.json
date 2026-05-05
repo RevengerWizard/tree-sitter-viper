@@ -866,6 +866,21 @@
     "fields": {}
   },
   {
+    "type": "qualified_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "relational_expr",
     "named": true,
     "fields": {},
@@ -1303,6 +1318,10 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_type",
           "named": true
         }
       ]

@@ -1,0 +1,17 @@
+==================
+Qualified type annotation
+==================
+
+let err: io::IOError;
+
+---
+
+(source_file
+  (item
+    (let_declaration
+      name: (identifier)
+      init_type: (base_type
+        (user_type
+          (qualified_type
+            (identifier)
+            (identifier)))))))
