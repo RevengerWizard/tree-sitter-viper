@@ -136,7 +136,7 @@ module.exports = grammar({
 
     fn_declaration: ($) =>
       seq(
-        optional(choice("pub", "inline", "noreturn", "extern", "export")),
+        repeat(choice("pub", "inline", "noreturn", "extern", "export")),
         "fn",
         field("name", $.identifier),
         $.parameters,

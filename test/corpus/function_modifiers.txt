@@ -1,0 +1,15 @@
+==================
+Multiple function modifiers
+==================
+
+pub inline fn main(): void;
+
+---
+
+(source_file
+  (item
+    (fn_declaration
+      name: (identifier)
+      (parameters)
+      (base_type
+        (primitive_type)))))

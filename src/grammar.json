@@ -780,37 +780,32 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "pub"
-                },
-                {
-                  "type": "STRING",
-                  "value": "inline"
-                },
-                {
-                  "type": "STRING",
-                  "value": "noreturn"
-                },
-                {
-                  "type": "STRING",
-                  "value": "extern"
-                },
-                {
-                  "type": "STRING",
-                  "value": "export"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "pub"
+              },
+              {
+                "type": "STRING",
+                "value": "inline"
+              },
+              {
+                "type": "STRING",
+                "value": "noreturn"
+              },
+              {
+                "type": "STRING",
+                "value": "extern"
+              },
+              {
+                "type": "STRING",
+                "value": "export"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",
