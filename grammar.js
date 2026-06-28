@@ -383,14 +383,18 @@ module.exports = grammar({
           $.primary_expr,
           repeat(
             choice(
-              seq("[", $.expression, "]"),
-              seq(".", $.identifier),
+              $.index_suffix,
+              $.field_suffix,
               $.arguments,
               choice("++", "--"),
             ),
           ),
         ),
       ),
+
+    index_suffix: ($) => seq("[", $.expression, "]"),
+
+    field_suffix: ($) => seq(".", field("member", $.identifier)),
 
     arguments: ($) =>
       seq(

@@ -100,6 +100,8 @@
 (scoped_identifier member: (identifier) @variable.member)
 (scoped_identifier "::" @punctuation.delimiter)
 
+(field_suffix member: (identifier) @variable.member)
+
 ;; Parameters
 (parameter
   name: (identifier) @variable.parameter)

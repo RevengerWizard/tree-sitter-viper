@@ -1,0 +1,55 @@
+========================================
+Indexed field access
+========================================
+
+fn main(): void {
+  name[expr].x;
+}
+
+---
+
+(source_file
+  (item
+    (fn_declaration
+      name: (identifier)
+      (parameters)
+      (base_type
+        (primitive_type))
+      (block
+        (statement
+          (expression_statement
+            (expression
+              (ternary_expr
+                (logical_or_expr
+                  (logical_and_expr
+                    (equality_expr
+                      (relational_expr
+                        (bitwise_or_expr
+                          (bitwise_xor_expr
+                            (bitwise_and_expr
+                              (shift_expr
+                                (additive_expr
+                                  (multiplicative_expr
+                                    (unary_expr
+                                      (postfix_expr
+                                        (primary_expr
+                                          (identifier))
+                                        (index_suffix
+                                          (expression
+                                            (ternary_expr
+                                              (logical_or_expr
+                                                (logical_and_expr
+                                                  (equality_expr
+                                                    (relational_expr
+                                                      (bitwise_or_expr
+                                                        (bitwise_xor_expr
+                                                          (bitwise_and_expr
+                                                            (shift_expr
+                                                              (additive_expr
+                                                                (multiplicative_expr
+                                                                  (unary_expr
+                                                                    (postfix_expr
+                                                                      (primary_expr
+                                                                        (identifier)))))))))))))))))
+                                        (field_suffix
+                                          member: (identifier))))))))))))))))))))))
