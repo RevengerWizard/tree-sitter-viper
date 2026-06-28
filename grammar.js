@@ -157,6 +157,7 @@ module.exports = grammar({
         $.if_statement,
         $.switch_statement,
         $.while_statement,
+        $.do_statement,
         $.for_statement,
         $.return_statement,
         $.break_statement,
@@ -225,7 +226,63 @@ module.exports = grammar({
 
     while_statement: ($) => seq("while", $.expression, $.block),
 
-    for_statement: ($) => seq("for", $.identifier, "in", $.expression, $.block),
+    do_statement: ($) => seq("do", $.block, "while", $.expression, ";"),
+
+    for_statement: ($) =>
+      seq(
+        "for",
+        optional(field("init", $.for_init)),
+        ";",
+        optional(field("condition", $.expression)),
+        ";",
+        optional(field("update", $.for_update)),
+        $.block,
+      ),
+
+    for_init: ($) =>
+      choice(
+        $.for_var_declaration,
+        $.for_let_declaration,
+        $.assignment_expression,
+        $.expression,
+      ),
+
+    for_update: ($) => choice($.assignment_expression, $.expression),
+
+    for_var_declaration: ($) =>
+      seq(
+        "var",
+        field("name", $.identifier),
+        optional(field("init_type", seq(":", $.base_type))),
+        optional(seq("=", $.expression)),
+      ),
+
+    for_let_declaration: ($) =>
+      seq(
+        "let",
+        field("name", $.identifier),
+        optional(field("init_type", seq(":", $.base_type))),
+        optional(seq("=", $.expression)),
+      ),
+
+    assignment_expression: ($) =>
+      seq(
+        $.postfix_expr,
+        choice(
+          "=",
+          "+=",
+          "-=",
+          "*=",
+          "/=",
+          "%=",
+          "&=",
+          "|=",
+          "^=",
+          "<<=",
+          ">>=",
+        ),
+        $.expression,
+      ),
 
     return_statement: ($) => seq("return", optional($.expression), ";"),
 

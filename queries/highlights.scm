@@ -1,5 +1,5 @@
 ;; Keywords - Control flow
-["if" "else" "while" "for" "break" "continue" "return" "switch" "case" "default"] @keyword
+["if" "else" "do" "while" "for" "break" "continue" "return" "switch" "case" "default"] @keyword
 
 ;; Keywords - Declarations
 ["fn" "var" "let" "def" "alias" "struct" "union" "enum" "type"] @keyword
