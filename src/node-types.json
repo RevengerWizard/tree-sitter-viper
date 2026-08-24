@@ -1074,6 +1074,10 @@
         {
           "type": "struct_initializer",
           "named": true
+        },
+        {
+          "type": "suffixed_number",
+          "named": true
         }
       ]
     }
@@ -1385,6 +1389,36 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "suffixed_number",
+    "named": true,
+    "fields": {
+      "suffix": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number_type_suffix",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1935,6 +1969,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "number_type_suffix",
     "named": true
   },
   {

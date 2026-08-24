@@ -2551,6 +2551,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "suffixed_number"
+        },
+        {
+          "type": "SYMBOL",
           "name": "number"
         },
         {
@@ -3012,6 +3016,92 @@
               "type": "PATTERN",
               "value": "[a-zA-Z0-9_]*"
             }
+          }
+        ]
+      }
+    },
+    "suffixed_number": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "float"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "number"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "suffix",
+          "content": {
+            "type": "SYMBOL",
+            "name": "number_type_suffix"
+          }
+        }
+      ]
+    },
+    "number_type_suffix": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "u8"
+          },
+          {
+            "type": "STRING",
+            "value": "i8"
+          },
+          {
+            "type": "STRING",
+            "value": "u16"
+          },
+          {
+            "type": "STRING",
+            "value": "i16"
+          },
+          {
+            "type": "STRING",
+            "value": "u32"
+          },
+          {
+            "type": "STRING",
+            "value": "i32"
+          },
+          {
+            "type": "STRING",
+            "value": "u64"
+          },
+          {
+            "type": "STRING",
+            "value": "i64"
+          },
+          {
+            "type": "STRING",
+            "value": "f32"
+          },
+          {
+            "type": "STRING",
+            "value": "f64"
+          },
+          {
+            "type": "STRING",
+            "value": "uz"
+          },
+          {
+            "type": "STRING",
+            "value": "iz"
           }
         ]
       }

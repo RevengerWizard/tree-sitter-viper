@@ -29,6 +29,7 @@
 ;; Numbers
 (number) @number
 (float) @number
+(suffixed_number suffix: (number_type_suffix) @type.builtin)
 
 ;; Enums
 (enum_declaration name: (identifier) @type)

@@ -464,6 +464,7 @@ module.exports = grammar({
       choice(
         $.scoped_identifier,
         $.identifier,
+        $.suffixed_number,
         $.number,
         $.float,
         $.character,
@@ -516,6 +517,15 @@ module.exports = grammar({
       ),
 
     identifier: ($) => token(seq(/[a-zA-Z_]/, repeat(/[a-zA-Z0-9_]*/))),
+    suffixed_number: ($) =>
+      seq(
+        field("value", choice($.float, $.number)),
+        field("suffix", $.number_type_suffix),
+      ),
+    number_type_suffix: ($) =>
+      token.immediate(
+        choice("u8", "i8", "u16", "i16", "u32", "i32", "u64", "i64", "f32", "f64", "uz", "iz"),
+      ),
     number: ($) => /0x[0-9a-fA-F_]+|0b[01_]+|[0-9][0-9_]*/,
     float: ($) => /[0-9][0-9_]*\.[0-9_]+([eE][+-]?[0-9_]+)?/,
     character: ($) => /'([^'\\]|\\.?)'/,
