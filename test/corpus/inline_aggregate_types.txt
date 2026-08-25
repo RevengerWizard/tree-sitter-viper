@@ -1,0 +1,253 @@
+========================================
+Inline aggregate types
+========================================
+
+type S = struct {
+  id: int32;
+  name: const uint8*;
+};
+
+type U = union {
+  int32;
+  bool;
+};
+
+type R = enum {
+  STOP,
+  RUN,
+  END,
+};
+
+struct Holder {
+  data: union {
+    id: int32;
+    flag: bool;
+  };
+  struct {
+    int32;
+    bool;
+  };
+}
+
+var x: struct { id: int32; name: const uint8*; } = {12, "tony"};
+var y: struct { int32; bool; } = {13, true};
+var e: enum : int32 { STOP, RUN, END } = e::STOP;
+
+---
+
+(source_file
+  (item
+    (type_declaration
+      (identifier)
+      (base_type
+        (struct_type
+          (struct_field
+            (identifier)
+            (base_type
+              (primitive_type)))
+          (struct_field
+            (identifier)
+            (pointer_type
+              (user_type
+                (identifier))))))))
+  (item
+    (type_declaration
+      (identifier)
+      (base_type
+        (union_type
+          (struct_field
+            (base_type
+              (primitive_type)))
+          (struct_field
+            (base_type
+              (primitive_type)))))))
+  (item
+    (type_declaration
+      (identifier)
+      (base_type
+        (enum_type
+          (enum_variant
+            (identifier))
+          (enum_variant
+            (identifier))
+          (enum_variant
+            (identifier))))))
+  (item
+    (struct_declaration
+      (identifier)
+      (struct_field
+        (identifier)
+        (base_type
+          (union_type
+            (struct_field
+              (identifier)
+              (base_type
+                (primitive_type)))
+            (struct_field
+              (identifier)
+              (base_type
+                (primitive_type))))))
+      (struct_field
+        (base_type
+          (struct_type
+            (struct_field
+              (base_type
+                (primitive_type)))
+            (struct_field
+              (base_type
+                (primitive_type))))))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (struct_type
+          (struct_field
+            (identifier)
+            (base_type
+              (primitive_type)))
+          (struct_field
+            (identifier)
+            (pointer_type
+              (user_type
+                (identifier))))))
+      (expression
+        (ternary_expr
+          (logical_or_expr
+            (logical_and_expr
+              (equality_expr
+                (relational_expr
+                  (bitwise_or_expr
+                    (bitwise_xor_expr
+                      (bitwise_and_expr
+                        (shift_expr
+                          (additive_expr
+                            (multiplicative_expr
+                              (unary_expr
+                                (postfix_expr
+                                  (primary_expr
+                                    (struct_initializer
+                                      (struct_element
+                                        (expression
+                                          (ternary_expr
+                                            (logical_or_expr
+                                              (logical_and_expr
+                                                (equality_expr
+                                                  (relational_expr
+                                                    (bitwise_or_expr
+                                                      (bitwise_xor_expr
+                                                        (bitwise_and_expr
+                                                          (shift_expr
+                                                            (additive_expr
+                                                              (multiplicative_expr
+                                                                (unary_expr
+                                                                  (postfix_expr
+                                                                    (primary_expr
+                                                                      (number)))))))))))))))))
+                                      (struct_element
+                                        (expression
+                                          (ternary_expr
+                                            (logical_or_expr
+                                              (logical_and_expr
+                                                (equality_expr
+                                                  (relational_expr
+                                                    (bitwise_or_expr
+                                                      (bitwise_xor_expr
+                                                        (bitwise_and_expr
+                                                          (shift_expr
+                                                            (additive_expr
+                                                              (multiplicative_expr
+                                                                (unary_expr
+                                                                  (postfix_expr
+                                                                    (primary_expr
+                                                                      (string)))))))))))))))))))))))))))))))))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (struct_type
+          (struct_field
+            (base_type
+              (primitive_type)))
+          (struct_field
+            (base_type
+              (primitive_type)))))
+      (expression
+        (ternary_expr
+          (logical_or_expr
+            (logical_and_expr
+              (equality_expr
+                (relational_expr
+                  (bitwise_or_expr
+                    (bitwise_xor_expr
+                      (bitwise_and_expr
+                        (shift_expr
+                          (additive_expr
+                            (multiplicative_expr
+                              (unary_expr
+                                (postfix_expr
+                                  (primary_expr
+                                    (struct_initializer
+                                      (struct_element
+                                        (expression
+                                          (ternary_expr
+                                            (logical_or_expr
+                                              (logical_and_expr
+                                                (equality_expr
+                                                  (relational_expr
+                                                    (bitwise_or_expr
+                                                      (bitwise_xor_expr
+                                                        (bitwise_and_expr
+                                                          (shift_expr
+                                                            (additive_expr
+                                                              (multiplicative_expr
+                                                                (unary_expr
+                                                                  (postfix_expr
+                                                                    (primary_expr
+                                                                      (number)))))))))))))))))
+                                      (struct_element
+                                        (expression
+                                          (ternary_expr
+                                            (logical_or_expr
+                                              (logical_and_expr
+                                                (equality_expr
+                                                  (relational_expr
+                                                    (bitwise_or_expr
+                                                      (bitwise_xor_expr
+                                                        (bitwise_and_expr
+                                                          (shift_expr
+                                                            (additive_expr
+                                                              (multiplicative_expr
+                                                                (unary_expr
+                                                                  (postfix_expr
+                                                                    (primary_expr))))))))))))))))))))))))))))))))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (enum_type
+          (base_type
+            (primitive_type))
+          (enum_variant
+            (identifier))
+          (enum_variant
+            (identifier))
+          (enum_variant
+            (identifier))))
+      (expression
+        (ternary_expr
+          (logical_or_expr
+            (logical_and_expr
+              (equality_expr
+                (relational_expr
+                  (bitwise_or_expr
+                    (bitwise_xor_expr
+                      (bitwise_and_expr
+                        (shift_expr
+                          (additive_expr
+                            (multiplicative_expr
+                              (unary_expr
+                                (postfix_expr
+                                  (primary_expr
+                                    (scoped_identifier
+                                      (identifier)
+                                      (identifier))))))))))))))))))))

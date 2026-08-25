@@ -105,7 +105,7 @@ module.exports = grammar({
             ":",
             choice($.base_type, $.pointer_type),
           ),
-          $.anonymous_aggregate,
+          choice($.base_type, $.pointer_type),
         ),
         ";",
       ),
@@ -313,13 +313,45 @@ module.exports = grammar({
 
     pointer_type: ($) =>
       seq(
-        choice($.primitive_type, $.user_type, $.array_type, $.function_type),
+        choice(
+          $.primitive_type,
+          $.user_type,
+          $.array_type,
+          $.function_type,
+          $.struct_type,
+          $.union_type,
+          $.enum_type,
+        ),
         "*",
         optional("?"),
       ),
 
     base_type: ($) =>
-      choice($.primitive_type, $.user_type, $.array_type, $.function_type),
+      choice(
+        $.primitive_type,
+        $.user_type,
+        $.array_type,
+        $.function_type,
+        $.struct_type,
+        $.union_type,
+        $.enum_type,
+      ),
+
+    struct_type: ($) =>
+      seq(optional("packed"), "struct", "{", repeat($.struct_field), "}"),
+
+    union_type: ($) => seq("union", "{", repeat($.struct_field), "}"),
+
+    enum_type: ($) =>
+      seq(
+        "enum",
+        optional(seq(":", field("base_type", $.base_type))),
+        "{",
+        optional(
+          seq($.enum_variant, repeat(seq(",", $.enum_variant)), optional(",")),
+        ),
+        "}",
+      ),
 
     array_type: ($) =>
       prec(2, seq($.base_type, "[", optional($.expression), "]")),
@@ -513,6 +545,7 @@ module.exports = grammar({
         choice(
           seq("[", $.expression, "]", "=", $.expression),
           seq($.identifier, "=", $.expression),
+          $.expression,
         ),
       ),
 

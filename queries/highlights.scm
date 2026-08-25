@@ -53,6 +53,7 @@
 
 ;; Packed modifier
 (struct_declaration "packed" @keyword)
+(struct_type "packed" @keyword)
 
 ;; Fn declarations
 (fn_declaration (identifier) @function)
@@ -109,6 +110,12 @@
 
 ;; Function types
 (function_type) @type
+
+;; Aggregate types
+(struct_type) @type
+(union_type) @type
+(enum_type) @type
+(enum_type base_type: (_) @type)
 
 ;; Pointer types
 (pointer_type) @type
