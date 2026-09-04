@@ -506,6 +506,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "packed"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "union"
         },
@@ -1789,6 +1801,14 @@
             {
               "type": "SYMBOL",
               "name": "enum_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "opaque_struct_pointer_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "opaque_union_pointer_type"
             }
           ]
         },
@@ -1840,6 +1860,14 @@
         {
           "type": "SYMBOL",
           "name": "enum_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "opaque_struct_pointer_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "opaque_union_pointer_type"
         }
       ]
     },
@@ -1883,6 +1911,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "packed"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "union"
         },
@@ -1900,6 +1940,56 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "opaque_struct_pointer_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "packed"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "struct"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        }
+      ]
+    },
+    "opaque_union_pointer_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "packed"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "union"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
         }
       ]
     },

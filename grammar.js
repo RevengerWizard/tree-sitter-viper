@@ -89,6 +89,7 @@ module.exports = grammar({
 
     union_declaration: ($) =>
       seq(
+        optional("packed"),
         "union",
         field("name", $.identifier),
         "{",
@@ -321,6 +322,8 @@ module.exports = grammar({
           $.struct_type,
           $.union_type,
           $.enum_type,
+          $.opaque_struct_pointer_type,
+          $.opaque_union_pointer_type,
         ),
         "*",
         optional("?"),
@@ -335,12 +338,19 @@ module.exports = grammar({
         $.struct_type,
         $.union_type,
         $.enum_type,
+        $.opaque_struct_pointer_type,
+        $.opaque_union_pointer_type,
       ),
 
     struct_type: ($) =>
       seq(optional("packed"), "struct", "{", repeat($.struct_field), "}"),
 
-    union_type: ($) => seq("union", "{", repeat($.struct_field), "}"),
+    union_type: ($) =>
+      seq(optional("packed"), "union", "{", repeat($.struct_field), "}"),
+
+    opaque_struct_pointer_type: ($) => seq(optional("packed"), "struct", "*"),
+
+    opaque_union_pointer_type: ($) => seq(optional("packed"), "union", "*"),
 
     enum_type: ($) =>
       seq(

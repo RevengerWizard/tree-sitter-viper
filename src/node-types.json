@@ -148,6 +148,14 @@
           "named": true
         },
         {
+          "type": "opaque_struct_pointer_type",
+          "named": true
+        },
+        {
+          "type": "opaque_union_pointer_type",
+          "named": true
+        },
+        {
           "type": "primitive_type",
           "named": true
         },
@@ -941,6 +949,16 @@
     }
   },
   {
+    "type": "opaque_struct_pointer_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "opaque_union_pointer_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {
@@ -1018,6 +1036,14 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "opaque_struct_pointer_type",
+          "named": true
+        },
+        {
+          "type": "opaque_union_pointer_type",
           "named": true
         },
         {

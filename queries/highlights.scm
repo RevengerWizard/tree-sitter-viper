@@ -53,7 +53,11 @@
 
 ;; Packed modifier
 (struct_declaration "packed" @keyword)
+(union_declaration "packed" @keyword)
 (struct_type "packed" @keyword)
+(union_type "packed" @keyword)
+(opaque_struct_pointer_type "packed" @keyword)
+(opaque_union_pointer_type "packed" @keyword)
 
 ;; Fn declarations
 (fn_declaration (identifier) @function)
@@ -62,19 +66,16 @@
 (var_declaration
   name: (identifier) @variable)
 (var_declaration ":" @punctuation.delimiter)
-(var_declaration init_type: (_) @type)
 
 ;; Let declarations
 (let_declaration
   name: (identifier) @variable)
 (let_declaration ":" @punctuation.delimiter)
-(let_declaration init_type: (_) @type)
 
 ;; Def declarations
 (def_declaration
   name: (identifier) @constant)
 (def_declaration ":" @punctuation.delimiter)
-(def_declaration init_type: (_) @type)
 
 ;; Type declarations
 (struct_declaration
@@ -109,19 +110,17 @@
   name: (identifier) @variable.parameter)
 
 ;; Function types
-(function_type) @type
+(function_type "fn" @keyword)
 
 ;; Aggregate types
-(struct_type) @type
-(union_type) @type
-(enum_type) @type
+(opaque_struct_pointer_type) @type
+(opaque_union_pointer_type) @type
+(struct_field name: (identifier) @variable.member)
 (enum_type base_type: (_) @type)
 
 ;; Pointer types
-(pointer_type) @type
 
 ;; Array types
-(array_type (base_type) @type)
 (array_type "[" @punctuation.bracket "]" @punctuation.bracket)
 
 ;; Struct initializers

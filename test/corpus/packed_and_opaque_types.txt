@@ -1,0 +1,83 @@
+========================================
+Packed and opaque aggregate types
+========================================
+
+packed struct PackedS {
+  id: int32;
+}
+
+packed union PackedU {
+  id: int32;
+  flag: bool;
+}
+
+var a: packed struct { id: int32; };
+var b: packed union { id: int32; flag: bool; };
+var c: struct*;
+var d: union*;
+var e: packed struct*;
+var f: packed union*;
+
+---
+
+(source_file
+  (item
+    (struct_declaration
+      (identifier)
+      (struct_field
+        (identifier)
+        (base_type
+          (primitive_type)))))
+  (item
+    (union_declaration
+      (identifier)
+      (struct_field
+        (identifier)
+        (base_type
+          (primitive_type)))
+      (struct_field
+        (identifier)
+        (base_type
+          (primitive_type)))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (struct_type
+          (struct_field
+            (identifier)
+            (base_type
+              (primitive_type)))))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (union_type
+          (struct_field
+            (identifier)
+            (base_type
+              (primitive_type)))
+          (struct_field
+            (identifier)
+            (base_type
+              (primitive_type)))))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (opaque_struct_pointer_type))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (opaque_union_pointer_type))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (opaque_struct_pointer_type))))
+  (item
+    (var_declaration
+      (identifier)
+      (base_type
+        (opaque_union_pointer_type)))))
